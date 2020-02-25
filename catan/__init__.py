@@ -16,4 +16,3 @@ All classes in this module:
 - Piece
 - PieceType
 """
-import grid

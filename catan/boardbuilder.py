@@ -20,7 +20,7 @@ from enum import Enum
 import logging
 import pprint
 import random
-import catan.grid  as hexgrid
+import catan.grid as hexgrid
 import catan.game
 import catan.states
 import catan.board
@@ -125,8 +125,8 @@ def _get_tiles(board=None, terrain=None, numbers=None):
     - Opt.preset ->
     - Opt.debug -> alias for Opt.random
 
-    :param terrain_opts: Opt
-    :param numbers_opts: Opt
+    :param terrain: Opt
+    :param numbers: Opt
     :return: list(Tile)
     """
     if board is not None:
@@ -144,7 +144,7 @@ def _read_tiles_from_string(board_str):
     terrain = [catan.board.Terrain.from_short_form(char) for char in board_str.split(' ')
                if char in ('w', 'b', 'h', 's', 'o', 'd')]
     numbers = [catan.board.HexNumber.from_digit_or_none(num) for num in board_str.split(' ')
-               if num in ('2','3','4','5','6','8','9','10','11','12','None')]
+               if num in ('2', '3', '4', '5', '6', '8', '9', '10', '11', '12', 'None')]
     logging.info('terrain:{}, numbers:{}'.format(terrain, numbers))
     tile_data = list(zip(terrain, numbers))
     tiles = [catan.board.Tile(i, t, n) for i, (t, n) in enumerate(tile_data, 1)]
@@ -276,18 +276,6 @@ def _get_pieces(tiles, ports, players_opts, pieces_opts):
     """
     if pieces_opts == Opt.empty:
         return dict()
-    elif pieces_opts == Opt.debug:
-        players = catan.game.Game.get_debug_players()
-        return {
-            (hexgrid.NODE, 0x23): catan.pieces.Piece(catan.pieces.PieceType.settlement, players[0]),
-            (hexgrid.EDGE, 0x22): catan.pieces.Piece(catan.pieces.PieceType.road, players[0]),
-            (hexgrid.NODE, 0x67): catan.pieces.Piece(catan.pieces.PieceType.settlement, players[1]),
-            (hexgrid.EDGE, 0x98): catan.pieces.Piece(catan.pieces.PieceType.road, players[1]),
-            (hexgrid.NODE, 0x87): catan.pieces.Piece(catan.pieces.PieceType.settlement, players[2]),
-            (hexgrid.EDGE, 0x89): catan.pieces.Piece(catan.pieces.PieceType.road, players[2]),
-            (hexgrid.EDGE, 0xA9): catan.pieces.Piece(catan.pieces.PieceType.road, players[3]),
-            (hexgrid.TILE, 0x77): catan.pieces.Piece(catan.pieces.PieceType.robber, None),
-        }
     elif pieces_opts in (Opt.preset, ):
         deserts = filter(lambda tile: tile.terrain == catan.board.Terrain.desert, tiles)
         coord = hexgrid.tile_id_to_coord(list(deserts)[0].tile_id)

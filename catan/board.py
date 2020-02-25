@@ -121,17 +121,17 @@ class Board(object):
             return True
         else:
             logging.debug('Can\'t place piece={} on coord={}'.format(
-                piece.value, hex(coord)
+                piece.value, coord
             ))
             return self.pieces.get(coord) is None
 
     def place_piece(self, piece, coord):
         if not self.can_place_piece(piece, coord):
             logging.critical('ILLEGAL: Attempted to place piece={} on coord={}'.format(
-                piece.value, hex(coord)
+                piece.value, coord
             ))
         logging.debug('Placed piece={} on coord={}'.format(
-            piece, hex(coord)
+            piece, coord
         ))
         hex_type = self._piece_type_to_hex_type(piece.type)
         self.pieces[(hex_type, coord)] = piece
@@ -159,7 +159,7 @@ class Board(object):
         indexes = set((self._piece_type_to_hex_type(t), coord) for t in types)
         pieces = [self.pieces[idx] for idx in indexes if idx in self.pieces]
         if len(pieces) == 0:
-            #logging.warning('Found zero pieces at {}'.format(indexes))
+            # logging.warning('Found zero pieces at {}'.format(indexes))
             pass
         elif len(pieces) == 1:
             logging.debug('Found one piece at {}: {}'.format(indexes, pieces[0]))
@@ -223,16 +223,6 @@ class Board(object):
             logging.debug('Attempted to cycle port on coord=({},{}) on a locked board'.format(tile_id, direction))
         self.notify_observers()
 
-    def rotate_ports(self):
-        """
-        Rotates the ports 90 degrees. Useful when using the default port setup but the spectator is watching
-        at a "rotated" angle from "true north".
-        """
-        for port in self.ports:
-            port.tile_id = ((port.tile_id + 1) % len(hexgrid.coastal_tile_ids())) + 1
-            port.direction = hexgrid.rotate_direction(hexgrid.EDGE, port.direction, ccw=True)
-        self.notify_observers()
-
     def set_terrain(self, terrain):
         self.tiles = [Tile(tile.tile_id, t, tile.number) for t, tile in zip(terrain, self.tiles)]
 
@@ -261,7 +251,7 @@ class Tile(object):
         self.number = number
 
 # Number of tiles on the catan board. This should probably be in module hexgrid.
-NUM_TILES = 3+4+5+4+3
+NUM_TILES = 19
 
 
 class Terrain(Enum):

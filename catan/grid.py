@@ -52,6 +52,32 @@ _tile_edge_offsets = {
 }
 
 
+def location(hexgrid_type, coord):
+    """
+    Returns a formatted string representing the coordinate. The format depends on the
+    coordinate type.
+    Tiles look like: 1, 12
+    Nodes look like: (1 NW), (12 S)
+    Edges look like: (1 NW), (12 SE)
+    :param hexgrid_type: hexgrid.TILE, hexgrid.NODE, hexgrid.EDGE
+    :param coord: integer coordinate in this module's hexadecimal coordinate system
+    :return: formatted string for display
+    """
+    if hexgrid_type == TILE:
+        return str(coord)
+    elif hexgrid_type == NODE:
+        tile_id = nearest_tile_to_node(coord)
+        dirn = tile_node_offset_to_direction(coord - tile_id_to_coord(tile_id))
+        return '({} {})'.format(tile_id, dirn)
+    elif hexgrid_type == EDGE:
+        tile_id = nearest_tile_to_edge(coord)
+        dirn = tile_edge_offset_to_direction(coord - tile_id_to_coord(tile_id))
+        return '({} {})'.format(tile_id, dirn)
+    else:
+        logging.warning('unsupported hexgrid_type={}'.format(hexgrid_type))
+        return None
+
+
 def from_location(hexgrid_type, tile_id, direction=None):
     """
     :param hexgrid_type: hexgrid.TILE, hexgrid.NODE, hexgrid.EDGE
@@ -236,7 +262,7 @@ def tile_id_from_coord(coord):
     for i, c in _tile_id_to_coord.items():
         if c == coord:
             return i
-    raise Exception('Tile id lookup failed, coord={} not found in map'.format(hex(coord)))
+    raise Exception('Tile id lookup failed, coord={} not found in map'.format(coord))
 
 
 def nearest_tile_to_edge(edge_coord):
