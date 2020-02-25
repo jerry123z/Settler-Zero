@@ -1,10 +1,10 @@
 """
-module hexgrid provides functions for working with a hexagonal settlers of catan grid.
+Module hexgrid provides functions for working with a hexagonal settlers of catan grid.
 This module uses a non-rotatable 2-d representation of the hex grid.
 This is so that the resulting representation is denser and more efficient to perform convolutions on.
 Adapted from module https://github.com/rosshamish/hexgrid/.
 Edge and Node representation changed so that edges and nodes can be held in a single 2-d array with some null spaces to
-the left and right of each tile
+the left and right of each tile.
 """
 import logging
 
