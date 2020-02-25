@@ -9,7 +9,7 @@ class Game also supports undo and redo, which is useful for building GUIs.
 
 Supports Python 3. Might work in Python 2.
 
-Thanks to the original author: Ross Anderson ([rosshamish](https://github.com/rosshamish)) for starting the project
+Thanks to the original author: Ross Anderson ([rosshamish](https://github.com/rosshamish)) for [`catan-py`](https://github.com/rosshamish/catan-py)
 
 > Author: Jerry Zheng ([jerry123z](https://github.com/jerry123z))
 

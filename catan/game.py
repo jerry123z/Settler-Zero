@@ -26,7 +26,7 @@ class Game(object):
 
     e.g. self.set_state(states.GameStateNotInGame(self))
     """
-    def __init__(self, players=None, board=None, logging='on', pregame='on', use_stdout=False):
+    def __init__(self, players=None, board=None, logging='off', pregame='on', use_stdout=False):
         """
         Create a Game with the given options.
 
